@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,7 +49,7 @@ public class Odin<TRequest, TResponse> : IOdin<TRequest, TResponse>
     {
         if (ex is OdinCore.Tools.PagingException pagingEx)
             return new Result<TResponse>(HttpStatusCode.BadRequest, "page", pagingEx.Message) { message = pagingEx.Message };
-        return new Result<TResponse>(HttpStatusCode.InternalServerError) { message = "Internal server error" };
+        return new Result<TResponse>(HttpStatusCode.InternalServerError) { message = "خطای داخلی سرور" };
     }
 
     public virtual Result<TResponse> RunExecute(TRequest? request)
@@ -127,7 +127,7 @@ public class Odin<TRequest, TResponse> : IOdin<TRequest, TResponse>
     private static string CombinePath(string path, string memberName) { if (string.IsNullOrWhiteSpace(path)) return memberName; if (string.IsNullOrWhiteSpace(memberName)) return path; return $"{path}.{memberName}"; }
     private static void AddValidationError(Dictionary<string, object?> errors, string key, string? errorMessage)
     {
-        var message = errorMessage ?? "The entered value is invalid.";
+        var message = errorMessage ?? "مقدار وارد شده معتبر نیست";
         if (errors.TryGetValue(key, out var current) && current is not null) errors[key] = $"{current}#{message}"; else errors[key] = message;
     }
     private static string BuildValidationMessage(Dictionary<string, object?> errors)
