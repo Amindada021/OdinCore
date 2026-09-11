@@ -1,0 +1,38 @@
+name: Feature request
+description: Suggest an idea or improvement for OdinCore
+title: "[Feature] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve OdinCore. Please describe the real-world problem first; API ideas can follow.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What problem are you trying to solve?
+      placeholder: Describe the application scenario and why the current API is not enough.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the behavior or API you would like to see.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Are there workarounds or other designs you considered?
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add examples, benchmarks, links, or other useful information.
