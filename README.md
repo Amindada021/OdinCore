@@ -13,6 +13,7 @@ OdinCore is a lightweight request-to-result pipeline for ASP.NET Core. It provid
 - Automatic handler registration through assembly scanning
 - Configurable DI lifetime per handler
 - Memory and distributed caching
+- Shared-cache helpers with get-or-create and invalidation support
 - Standard HTTP-oriented `Result<T>` model
 - ASP.NET Core `IActionResult` integration
 - Paging helpers for `IQueryable<T>`
@@ -235,6 +236,37 @@ protected override Cache? EnableCaching()
 ```
 
 Use `sliding: true` when sliding expiration is preferred.
+
+### Shared cache data
+
+The same `Cache` abstraction can also be used outside the handler-result pipeline for data shared by multiple handlers:
+
+```csharp
+var cache = new Cache(
+    memoryCache,
+    $"coding:{databaseId}",
+    TimeSpan.FromHours(2));
+
+var coding = cache.GetOrCreate(() => LoadCoding(databaseId));
+```
+
+Async factories are supported as well:
+
+```csharp
+var coding = await cache.GetOrCreateAsync(
+    ct => LoadCodingAsync(databaseId, ct),
+    cancellationToken);
+```
+
+Invalidate the shared entry after a successful mutation:
+
+```csharp
+cache.Remove();
+// or
+await cache.RemoveAsync(cancellationToken);
+```
+
+These helpers work with both memory and distributed cache providers.
 
 ## Paging
 
